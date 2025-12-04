@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Site Image{% endblock %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+    <p>Bienvenue sur la page d'accueil des images.</p>
+    <img src="{{ asset('images/imgTalmo.jpg') }}" alt="Description de l'image" style="max-width: 100%; height: auto;">
+{% endblock %}
