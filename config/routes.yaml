@@ -1,3 +1,5 @@
-app_client_info:
-    path: /client/prenom/{prenom}
-    controller: App\Controller\ClientController::info
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
