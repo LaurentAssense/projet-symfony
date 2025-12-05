@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class ImageController extends AbstractController
 {
@@ -37,7 +38,23 @@ class ImageController extends AbstractController
     {
         $imagePath = $this->kernel->getProjectDir() . '/public/images/' . $filename;
 
+        if (!file_exists($imagePath)) {
+            throw $this->createNotFoundException('L\'image n\'existe pas.');
+        }
+
         return $this->file($imagePath);
+    }
+
+    #[Route('/img/data/{filename}', name: 'app_image_affiche')]
+    public function affiche(string $filename): BinaryFileResponse
+    {
+        $imagePath = $this->kernel->getProjectDir() . '/public/images/' . $filename;
+
+        if (!file_exists($imagePath)) {
+            throw $this->createNotFoundException('L\'image n\'existe pas.');
+        }
+
+        return $this->file($imagePath, $filename, ResponseHeaderBag::DISPOSITION_INLINE);
     }
 
     private function getImages(): array
