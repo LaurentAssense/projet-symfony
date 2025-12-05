@@ -27,7 +27,7 @@ class ImageController extends AbstractController
 
     public function menu(): Response
     {
-        return $this->render('img/_imageList.html.twig', [
+        return $this->render('img/_menu.html.twig', [
             'images' => $this->getImages(),
         ]);
     }
