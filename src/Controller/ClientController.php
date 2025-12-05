@@ -4,22 +4,22 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
-class ClientController extends AbstractController {
-    
-    #[Route('/client/prenom/{prenom}', name: 'app_client_info')]
-    function info(string $prenom): Response
+class ClientController extends AbstractController
+{
+    /**
+     * Route ouverte seulement de 8h à 17h, sinon on exécute ferme
+     * @return Response
+     */
+    #[Route("/client", name:"client", options: ["ouverture" => "8-17"])]
+    public function home() : Response
     {
-        if (!preg_match('/^[a-zA-Z-]+$/', $prenom)) {
-            return new Response(
-                'Le prénom ne doit contenir que des lettres et des tirets.',
-                Response::HTTP_BAD_REQUEST
-            );
-        }
+        return new Response("Bonjour");
+    }
 
-        return new Response(
-            "Le prenom du client est : $prenom"
-        );
+    public function ferme() : Response
+    {
+        return new Response("Nous sommes fermés !");
     }
 }
