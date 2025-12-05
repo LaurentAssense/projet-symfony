@@ -16,7 +16,7 @@
                     <h1 class="h3 mb-0 text-center">Créez votre compte</h1>
                 </div>
                 <div class="card-body">
-                    {{ form_start(form) }}
+                    {{ form_start(form, {'attr': {'autocomplete': 'off'}}) }}
                         <div class="mb-3">
                             {{ form_label(form.email) }}
                             {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
@@ -25,9 +25,10 @@
                             </div>
                         </div>
 
+                        {% set password_error = form.password.vars.errors|length > 0 %}
                         <div class="mb-3">
                             {{ form_label(form.password.first) }}
-                            {{ form_widget(form.password.first, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.password.first, {'attr': {'class': 'form-control' ~ (password_error ? ' is-invalid' : '')}}) }}
                             <div class="form-error">
                                 {{ form_errors(form.password.first) }}
                             </div>
@@ -35,9 +36,10 @@
 
                         <div class="mb-3">
                             {{ form_label(form.password.second) }}
-                            {{ form_widget(form.password.second, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.password.second, {'attr': {'class': 'form-control' ~ (password_error ? ' is-invalid' : '')}}) }}
                             <div class="form-error">
                                 {{ form_errors(form.password.second) }}
+                                {{ form_errors(form.password) }}
                             </div>
                         </div>
                         
