@@ -17,12 +17,12 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // data_class est null, donc les données sont un tableau
             $data = $form->getData();
-            $email = $data['email'];
+            $session = $request->getSession();
+            $session->set('user_login', $data['email']);
+            $session->set('user_pass', $data['password']);
 
-            // Redirection vers une page de succès en passant l'email
-            return $this->redirectToRoute('app_register_success', ['email' => $email]);
+            return $this->redirectToRoute('success');
         }
 
         return $this->render('registration/index.html.twig', [
@@ -30,9 +30,12 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/register/success/{email}', name: 'app_register_success')]
-    public function success(string $email): Response
+    #[Route('/register/success', name: 'success')]
+    public function success(Request $request): Response
     {
+        $session = $request->getSession();
+        $email = $session->get('user_login');
+        
         return new Response("Merci {$email} pour votre inscription.");
     }
 }

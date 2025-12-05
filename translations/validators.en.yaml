@@ -1,0 +1,1 @@
+password.requirements: 'Password must be at least 8 chars with 1 uppercase, 1 lowercase, 1 number and 1 special char (@$!%*?&).'

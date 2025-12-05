@@ -26,6 +26,14 @@
                     background-color: #ddd;
                     color: black;
                 }
+                .navbar-right {
+                    float: right;
+                }
+                .navbar-right span {
+                    color: white;
+                    padding: 14px 16px;
+                    display: inline-block;
+                }
                 .container {
                     padding: 20px;
                 }
@@ -84,9 +92,17 @@
     </head>
     <body>
         <nav class="main-navbar">
-            <a href="{{ path('app_img_home') }}">Home</a>
-            <a href="{{ path('app_register') }}">Inscription</a>
+            <a href="{{ path('app_home') }}">Home</a>
             {{ render(controller('App\\Controller\\ImageController::menu')) }}
+            <div class="navbar-right">
+                {% if app.session.get('isConnected') %}
+                    <span>Bonjour, {{ app.session.get('user_login') }}</span>
+                    <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}">Se connecter</a>
+                    <a href="{{ path('app_register') }}">S'inscrire</a>
+                {% endif %}
+            </div>
         </nav>
 
         <main class="container">

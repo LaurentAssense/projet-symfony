@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class RegistrationType extends AbstractType
 {
@@ -19,7 +20,16 @@ class RegistrationType extends AbstractType
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les deux mots de passe doivent etre identique.',
-                'first_options'  => ['label' => 'Mot de passe'],
+                'first_options'  => [
+                    'label' => 'Mot de passe',
+                    'constraints' => [
+                        new Regex([
+                            'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/',
+                            'message' => 'password.requirements'
+
+                        ])
+                    ]
+                ],
                 'second_options' => ['label' => 'Confirmer le mot de passe'],
             ])
             ->add('submit', SubmitType::class, [
@@ -32,6 +42,7 @@ class RegistrationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => null,
+            'csrf_protection' => false,
         ]);
     }
 }
