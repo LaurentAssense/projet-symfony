@@ -1,8 +1,8 @@
-<div class="dropdown">
-    <button class="dropbtn">Images
+<div class="custom-dropdown">
+    <button class="custom-dropbtn">Images
         <i class="fa fa-caret-down"></i>
     </button>
-    <div class="dropdown-content">
+    <div class="custom-dropdown-content">
         {% for image in images %}
             <a href="{{ path('app_image_download', {'filename': image}) }}">{{ image }}</a>
         {% endfor %}
