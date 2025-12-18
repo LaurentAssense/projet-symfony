@@ -40,6 +40,7 @@ class LoginController extends AbstractController
                 return $this->redirectToRoute('app_home'); // Assuming 'app_home' is the name of your home route
             } else {
                 $this->addFlash('error', 'Identifiants incorrects');
+                return $this->redirectToRoute('app_login');
             }
         }
 
