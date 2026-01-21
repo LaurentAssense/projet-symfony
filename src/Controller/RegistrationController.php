@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\RegistrationType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,31 +13,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request): Response
+    public function register(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(RegistrationType::class);
+        $user = new User();
+        $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $session = $request->getSession();
-            $session->set('user_login', $data['email']);
-            $session->set('user_pass', $data['password']);
+            $entityManager->persist($user);
+            $entityManager->flush();
 
-            return $this->redirectToRoute('success');
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('registration/index.html.twig', [
             'form' => $form->createView(),
         ]);
-    }
-
-    #[Route('/register/success', name: 'success')]
-    public function success(Request $request): Response
-    {
-        $session = $request->getSession();
-        $email = $session->get('user_login');
-        
-        return new Response("Merci {$email} pour votre inscription.");
     }
 }

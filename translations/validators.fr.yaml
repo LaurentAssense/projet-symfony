@@ -1,1 +1,2 @@
 password.requirements: 'Le mot de passe doit faire 8 caractères min. avec 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial (@$!%*?&).'
+password.regex_mismatch: 'Le mot de passe doit contenir au minimum 8 caractères, dont au moins une lettre et un chiffre.'

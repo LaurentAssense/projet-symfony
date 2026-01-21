@@ -23,6 +23,7 @@ class ImageController extends AbstractController
     {
         return $this->render('img/home.html.twig', [
             'title' => 'Site Image',
+            'images' => $this->getImages(),
         ]);
     }
 

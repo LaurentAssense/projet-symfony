@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'user_list_title'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'user_list_heading'|trans }}</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{{ 'email_header'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.email }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="1">{{ 'no_users_found'|trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_home') }}" class="btn btn-primary">{{ 'back_to_home_button'|trans }}</a>
+{% endblock %}

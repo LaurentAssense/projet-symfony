@@ -2,59 +2,43 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class LoginController extends AbstractController
 {
     #[Route('/login', name: 'app_login')]
-    public function login(Request $request): Response
+    public function index(Request $request, SessionInterface $session, UserRepository $userRepository): Response
     {
-        $session = $request->getSession();
-        // pre-setting login and password for testing purposes
-        $session->set('user_login', 'test@test.com');
-        $session->set('user_pass', 'password');
+        $error = null;
 
-        $user = new User();
-        $form = $this->createFormBuilder($user)
-            ->add('email', EmailType::class)
-            ->add('password', PasswordType::class)
-            ->add('submit', SubmitType::class, ['label' => 'Connexion'])
-            ->getForm();
+        if ($request->isMethod('POST')) {
+            $email = $request->request->get('email');
+            $password = $request->request->get('password');
 
-        $form->handleRequest($request);
+            $user = $userRepository->findOneBy(['email' => $email]);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $user_login = $session->get('user_login');
-            $user_pass = $session->get('user_pass');
-
-            if ($data->getEmail() === $user_login && $data->getPassword() === $user_pass) {
+            if ($user && $user->getPassword() === $password) {
                 $session->set('isConnected', true);
-                return $this->redirectToRoute('app_home'); // Assuming 'app_home' is the name of your home route
+                return $this->redirectToRoute('app_home');
             } else {
-                $this->addFlash('error', 'Identifiants incorrects');
-                return $this->redirectToRoute('app_login');
+                $error = 'Invalid credentials';
             }
         }
 
         return $this->render('login/index.html.twig', [
-            'form' => $form->createView(),
+            'error' => $error,
         ]);
     }
 
     #[Route('/logout', name: 'app_logout')]
-    public function logout(Request $request): Response
+    public function logout(SessionInterface $session): Response
     {
-        $session = $request->getSession();
         $session->remove('isConnected');
-
-        return $this->redirectToRoute('app_login');
+        return $this->redirectToRoute('app_home');
     }
 }

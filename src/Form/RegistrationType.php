@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -24,11 +25,10 @@ class RegistrationType extends AbstractType
                     'label' => 'Mot de passe',
                     'constraints' => [
                         new Regex([
-                            'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/',
-                            'message' => 'password.requirements'
-
-                        ])
-                    ]
+                            'pattern' => '/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/',
+                            'message' => 'password.regex_mismatch',
+                        ]),
+                    ],
                 ],
                 'second_options' => ['label' => 'Confirmer le mot de passe'],
             ])
@@ -41,7 +41,7 @@ class RegistrationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => null,
+            'data_class' => User::class,
             'csrf_protection' => false,
         ]);
     }
