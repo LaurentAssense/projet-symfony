@@ -14,7 +14,7 @@ class ClientController extends AbstractController
      * Route ouverte seulement de 8h à 17h, sinon on exécute ferme
      * @return Response
      */
-    #[Route("/client", name:"client", options: ["ouverture" => "8-12"])]
+    #[Route("/client", name:"client", options: ["ouverture" => "8-10"])]
     public function home() : Response
     {
         return $this->render('client/index.html.twig', [
