@@ -4,8 +4,12 @@ controllers:
         namespace: App\Controller
     type: attribute
 
-#client_info:
-#    path: /client/prenom/{prenom}
-#    controller: App\Controller\ClientController::info
-#    requirements:
-#        prenom: '[a-zA-Z]+(-[a-zA-Z]+)*'
+client_info_test:
+    path: /client/prenoms/{prenom}
+    controller: App\Controller\ClientController::info
+    requirements:
+        prenom: '[a-zA-Z]+(-[a-zA-Z]+)*'
+
+app_routes_php:
+    resource: '../config/routes.php'
+    type: php
