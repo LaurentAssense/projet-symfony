@@ -3,3 +3,11 @@ user_list_heading: List of Users
 email_header: Email
 no_users_found: No users found.
 back_to_home_button: Back to home
+
+# Login Page
+'Log in!': 'Log in!'
+'Please sign in': 'Please sign in'
+'Email': 'Email'
+'Password': 'Password'
+'Sign in': 'Sign in'
+'Invalid credentials': 'Invalid credentials'

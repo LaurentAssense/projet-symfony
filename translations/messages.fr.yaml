@@ -3,3 +3,11 @@ user_list_heading: Liste des utilisateurs
 email_header: Email
 no_users_found: Aucun utilisateur trouvé.
 back_to_home_button: "Retour à l'accueil"
+
+# Page de connexion
+'Log in!': 'Connexion !'
+'Please sign in': 'Veuillez vous connecter'
+'Email': 'Adresse e-mail'
+'Password': 'Mot de passe'
+'Sign in': 'Se connecter'
+'Invalid credentials': 'Identifiants invalides'
