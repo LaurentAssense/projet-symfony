@@ -94,10 +94,11 @@
         <nav class="main-navbar">
             <a href="{{ path('app_home') }}">Home</a>
             <a href="{{ path('app_img_home') }}">Image</a>
+            <a href="{{ path('client') }}">Service Client</a>
             {{ render(controller('App\\Controller\\ImageController::menu')) }}
             <div class="navbar-right">
                 {% if app.session.get('isConnected') %}
-                    <span>Bonjour, {{ app.session.get('user_email') }}</span>
+                    <span>Bonjour {{ app.session.get('user_email') }}</span>
                     <a href="{{ path('app_logout') }}">Se déconnecter</a>
                 {% else %}
                     <a href="{{ path('app_login') }}">Se connecter</a>
