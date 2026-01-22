@@ -11,11 +11,13 @@ class OpenCloseListener
 {
     private $logger;
     private $router;
+    private ClientController $clientController;
 
-    public function __construct(LoggerInterface $logger, RouterInterface $router)
+    public function __construct(LoggerInterface $logger, RouterInterface $router, ClientController $clientController)
     {
         $this->logger = $logger;
         $this->router = $router;
+        $this->clientController = $clientController;
     }
 
     public function onKernelController(ControllerEvent $event)
@@ -38,7 +40,7 @@ class OpenCloseListener
         $heureActuelle = (int)date('G');
 
         if ($heureActuelle < $heureDebut || $heureActuelle >= $heureFin) {
-            $event->setController([new ClientController(), 'ferme']);
+            $event->setController([$this->clientController, 'ferme']);
         }
     }
 }
